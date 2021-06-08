@@ -1,4 +1,5 @@
-from tkinter import *
+from os import name
+from tkinter import * 
 from tkinter import messagebox
 import pymysql
 import tkinter as tk
@@ -41,7 +42,7 @@ class Login:
         label3.place(x=30,y=195)
 
         self.password=Entry(frame_input,font=("Comics Sans MS",15),bg='white')
-        self.password.config(show="*");
+        self.password.config(show="*")
         self.password.place(x=30,y=245,width=270,height=35)
 
         btn1=Button(frame_input,text="forgot password?",cursor='hand2',font=('calibri',10),bg='white',fg='black',bd=0)
@@ -131,7 +132,7 @@ class Login:
       label3.place(x=10,y=195)
 
       self.entry2=Entry(frame_input2,font=("Calibri",15),bg='white')
-      self.entry2.config(show="*");
+      self.entry2.config(show="*")
       self.entry2.place(x=10,y=235,width=200,height=35)
 
 
@@ -146,7 +147,7 @@ class Login:
       label5.place(x=250,y=195)
 
       self.entry4=Entry(frame_input2,font=("Calibri",15),bg='white')
-      self.entry4.config(show="*");
+      self.entry4.config(show="*")
       self.entry4.place(x=250,y=235,width=200,height=35)
 
 
@@ -209,6 +210,8 @@ class UserProfile():
         self.root.resizable(False,False)
         self.tabs()
         self.showContents()
+        self.myCart()
+
 
    def tabs(self):
       self.image = PhotoImage(file = "C:/Users/Marianna/Desktop/CEID/Τεχνολογία Λογισμικού/project_Code/CEID.Cook-e_SoftwareTech-1/simple_user_code/Cook-e.png")
@@ -278,8 +281,13 @@ class UserProfile():
    #TAB "FIND A RECIPE"
       
    def showresults(self):
-      Frame_recipe2 = Frame(self.tab2, bg="#FFEE8E")
+      Frame_recipe2 = Frame(self.tab2, bg="white")
       Frame_recipe2.place(x=0, y=0, width=370, height=550)
+
+      self.tab2.img7 = PhotoImage(file = "C:/Users/Marianna/Desktop/CEID/Τεχνολογία Λογισμικού/project_Code/CEID.Cook-e_SoftwareTech-1/simple_user_code/7.png")
+      # Show image using label
+      img7 = Label( self.tab2, image = self.tab2.img7, bg="white")
+      img7.place(x=0, y=200, width=180, height=170)
 
       selectedCW = self.dropCW.get()
       selectedmeal = self.dropmeal.get()
@@ -287,18 +295,18 @@ class UserProfile():
       selectedmeat = self.dropmeat.get()
       selecteddairy = self.dropdairy.get()
       selectedfruit = self.dropfruit.get()
-      selectedothers = self.dropothers.get()
+      # selectedothers = self.dropothers.get()
 
-      sqlrecipe = "Select recipe_name from recipes where cookware=%s and type_of_meal=%s and vegetables=%s and meat=%s and dairy=%s and fruit=%s and others=%s"
+      sqlrecipe = "Select recipe_name from recipes where cookware=%s and type_of_meal=%s and vegetables=%s and meat=%s and dairy=%s and fruit=%s" # and others=%s"
       cookWare= (selectedCW, )
       meal = (selectedmeal, )
       veg = (selectedveg, )
       meat = (selectedmeat, )
       dairy = (selecteddairy, )
       fruit = (selectedfruit, )
-      others = (selectedothers, )
+      # others = (selectedothers, )
 
-      self.resultrecipe = self.my_cursor.execute(sqlrecipe, (cookWare, meal,veg, meat, dairy, fruit, others))
+      self.resultrecipe = self.my_cursor.execute(sqlrecipe, (cookWare, meal,veg, meat, dairy, fruit))#, others))
       self.resultrecipe = self.my_cursor.fetchall()
 
       if not self.resultrecipe:
@@ -306,15 +314,62 @@ class UserProfile():
          back = Button(self.tab2,text="Back...",command=self.showContents,cursor="hand2",font=("Calibri",15),fg="white",bg="orange",bd=0,width=10)
          back.place(x=130, y=120)
       else:
-         num=5
-         
-         for w in self.resultrecipe:
-            resultbut = Button(self.tab2, text=w, command=self.tab2,font=("Calibri",12),width=45,bg="#E59A41",fg="white",borderwidth=3)
-            resultbut.place(x=0,y=num)
-            num+=33
-         back = Button(self.tab2,text="Back...",command=self.showContents,cursor="hand2",font=("Calibri",15),fg="white",bg="orange",bd=0,width=10)
-         back.place(x=130, y=330)
+         label2 = Label(self.tab2, text="Recipes found for you...", bg="white", font=("calibri",20,"bold"), fg="orange" )
+         label2.place(x=40 , y=10)
+         num=84
+         # global i
+         button = {}
+         for i in self.resultrecipe:
+            def action(x=i):
+               return self.text_updation(x)
+            
+            button[i] = Button(self.tab2, text=i, command=action, width=39, height=1, font=("Calibri",12), bg='orange', fg="black")
+            button[i].place(x=20,y=num)
+            num+=35
 
+         goBack3 = Button(self.tab2, text="Go Back", command=self.showContents, cursor="hand2",bg="orange",fg="white",font=("Calibri",12),borderwidth=3)
+         goBack3.place(x=140,y=300)
+
+
+
+   def text_updation(self,info):
+
+      frame3 = Frame(self.tab2, bg="white")
+      frame3.place(x=0,y=0,height=370,width=550)
+      self.tab2.img6 = PhotoImage(file = "C:/Users/Marianna/Desktop/CEID/Τεχνολογία Λογισμικού/project_Code/CEID.Cook-e_SoftwareTech-1/simple_user_code/7.png")
+      # Show image using label
+      img6 = Label( self.tab2, image = self.tab2.img6, bg="white")
+      img6.place(x=0, y=200, width=180, height=170)
+
+      self.tab2.img5 = PhotoImage(file = "C:/Users/Marianna/Desktop/CEID/Τεχνολογία Λογισμικού/project_Code/CEID.Cook-e_SoftwareTech-1/simple_user_code/Cook-eold.png")
+      # Show image using label
+      img5 = Label( self.tab2, image = self.tab2.img5, bg="white")
+      img5.place(x=200, y=300, width=180, height=170)
+
+      recName = info[0]
+
+      con2=pymysql.connect(host="localhost",user="root",password="texnologia!@logismikou1998",database="pythonlogin")
+      self.my_cursor2=con2.cursor()
+      sql2 = "Select your_instructions from recipes where recipe_name=%s "
+
+      namerec = (recName, )
+      result2 = self.my_cursor2.execute(sql2, namerec)
+      result2=self.my_cursor2.fetchall()
+
+      searched_label = Label(self.tab2, text="Here's your instructions!",background="white",font=('Calibri',20,"bold"),fg="brown")
+      searched_label.place(x=0, y=10)
+      searched_label2 = Label(self.tab2, text="Enjoy cooking!",background="white",font=('Calibri',15),fg="brown")
+      searched_label2.place(x=0, y=43)
+      searched_result2 = Label(self.tab2, text=result2,background="white",font=('Calibri',15),fg="brown")
+      searched_result2.place(x=0, y=80)
+
+
+
+      # self.labletext = Label(self.tab2, text=info[0], bg="#E59A41",fg="black",width=22,borderwidth=3,height=1)
+      # self.labletext.place(x=45,y=100)
+
+      goBack2 = Button(self.tab2, text="Go Back", command=self.showresults, bg="orange",fg="white",font=("Calibri",12),borderwidth=3)
+      goBack2.place(x=150,y=300)
       
             
    def showContents(self):
@@ -364,6 +419,105 @@ class UserProfile():
 
       searchRecipe = Button(self.tab2,text="Search..",command=self.showresults,cursor="hand2",font=("Calibri",15),fg="white",bg="orange",bd=0,width=10)
       searchRecipe.place(x=130, y=330)
+   
+   def myCart(self):
+      Frame_cart = Frame(self.tab4,bg="#FFEE8E")
+      Frame_cart.place(x=0, y=0, width=370, height=550)
+
+      cartLabel = Label(self.tab4,text="Choose a store",bg="orange",fg="white",width=46,height=2,font=("Calibri",12))
+      cartLabel.place(x=0,y=1)
+
+      # Δημιουργώ drop-down menu για την εύρεση καταστήματος
+      dropStore = ttk.Combobox(self.tab4,values=["Search...","ΣουπερΜαρκετ1","ΣουπερΜάρκετ2","ΣουπερΜαρκετ3","ΣουπερΜαρκετ4","ΣουπερΜαρκετ5"],width=43,font=("Calibri",12),foreground="black",background="white")
+      dropStore.current(0)
+      dropStore.place(x=0,y=46) 
+
+      cartLabel2 = Label(self.tab4,text="Add to your cart",bg="orange",fg="white",width=46,height=2,font=("Calibri",12))
+      cartLabel2.place(x=0,y=73)
+
+      # Δημιουργώ το Drop-down για το vegetables
+      dropMeal = ttk.Combobox(self.tab4,values=["Vegetables..","cabbage","tomato","cucumber","potato","carrot"],width=43,font=("Calibri",12),foreground="black",background="white")
+      dropMeal.current(0)
+      dropMeal.place(x=0,y=118)
+
+      # Δημιουργώ το Drop-down για το Meat-chicken-seafood
+      dropMeal = ttk.Combobox(self.tab4,values=["Meat-Chicken-Seafood..","chicken","lamb","beef","pork","shrimps","tuna"],width=43,font=("Calibri",12),foreground="black",background="white")
+      dropMeal.current(0)
+      dropMeal.place(x=0,y=145)
+
+      # Δημιουργώ το Drop-down για το Dairy
+      dropMeal = ttk.Combobox(self.tab4,values=["Dairy..","milk","cheese","yoghurt","butter","soft-cheese"],width=43,font=("Calibri",12),foreground="black",background="white")
+      dropMeal.current(0)
+      dropMeal.place(x=0,y=172)
+
+      # Δημιουργώ το Drop-down για το Fruits
+      dropMeal = ttk.Combobox(self.tab4,values=["Fruit..","apple","banana","strawberry","avocado","peach"],width=43,font=("Calibri",12),foreground="black",background="white")
+      dropMeal.current(0)
+      dropMeal.place(x=0,y=198)
+
+      checkoutButton = Button(self.tab4,text="Checkout",bg="orange",fg="white",width=10,font=("Calibri",12),command=self.checkout)
+      checkoutButton.place(x=130,y=280)
+
+   def checkout(self):
+      # Εδώ δημιουργούμε τη συνάρτηση για το add new button και θα μας εμφανίζεται ένα καινούργιο παράθυρο
+      # όπου θα υπάρχουν δύο νέα κουμπία για να επιλεχθεί ο τρόπος που θα εισαχθεί η καινούργια συνταγή
+      self.top = Toplevel()
+      self.top.title("Checkout")
+      self.top.geometry("200x140")
+      addNewFrame = Label(self.top, text="Choose your payment method",borderwidth=5,width=100,bg="orange",fg="black",font=("Calibri",12))
+      addNewFrame.pack()
+      addFromFilesButton = Button(self.top, text="With Credit Card..",bg="orange",width=20,fg="black",font=("Calibri",12),command=self.payCredit)
+      addFromFilesButton.pack(pady=10)
+      addFromScratch = Button(self.top, text="PayPal..",width=20,bg="orange",fg="black",font=("Calibri",12))
+      addFromScratch.pack()
+    
+   def payCredit(self):
+
+        self.top.destroy() 
+        self.new = Toplevel()
+        self.new.title("Pay with credit..")
+        self.new.geometry("370x550")
+        self.new.resizable(False,False)
+      
+
+        Frame_credit = Frame(self.new,bg="#FFEE8E")
+        Frame_credit.place(x=0, y=0, width=370, height=550)
+
+        labelcardholdersName = Label(self.new, text="CARDHOLDERS NAME" ,bg="orange",fg="white",font=("Calibri",15), width=30)
+        labelcardholdersName.place(x=10,y=30)
+
+        labelcardNameEntry = Entry(self.new,font=("Calibri",15) )
+        labelcardNameEntry.place(x=10 , y=70, width=300, height=25)
+
+        labelcardNumber = Label(self.new, text="CARD NUMBER" ,bg="orange",fg="white",font=("Calibri",15), width=30)
+        labelcardNumber.place(x=10,y=110)
+
+        labelcardNumberEntry = Entry(self.new,bg="white",font=("Calibri",15), width=30 )
+        labelcardNumberEntry.place(x=10 , y=150, width=300, height=30)
+
+        labelcardExpirationDate = Label(self.new, text="EXPERATION DATE" ,bg="orange",fg="white",font=("Calibri",15))
+        labelcardExpirationDate.place(x=10,y=190)
+
+        labelcardExpirationDateEntry= ttk.Combobox(self.new,values=["January","February","March","April","May","June","July","August","September","October","November","December"])
+        labelcardExpirationDateEntry.place(x=10 , y=230, width=100, height=30)
+
+        labelcardExpirationEntry= ttk.Combobox(self.new, values=["2021","2022","2023","2024","2025","2026","2027","2028"] )
+        labelcardExpirationEntry.place(x=120 , y=230, width=70, height=30)
+
+        labelcardCVVCVC = Label(self.new, text="CVV/CVC" ,bg="orange",fg="white",font=("Calibri",15))
+        labelcardCVVCVC.place(x=10,y=270)
+
+        labelcardCVVCVCEntry = Entry(self.new,bg="white",font=("Calibri",15), width=30 )
+        labelcardCVVCVCEntry.place(x=10 , y=310, width=60, height=30)
+
+        completePayment = Button(self.new, text="Complete Payment",width=20,bg="orange",fg="white",font=("Calibri",14))
+        completePayment.place(x=70, y=360)
+
+      
+
+
+
+
       
 
    def close_windows(self):
