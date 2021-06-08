@@ -513,13 +513,6 @@ class UserProfile():
         completePayment = Button(self.new, text="Complete Payment",width=20,bg="orange",fg="white",font=("Calibri",14))
         completePayment.place(x=70, y=360)
 
-      
-
-
-
-
-      
-
    def close_windows(self):
       self.root.destroy()
 
