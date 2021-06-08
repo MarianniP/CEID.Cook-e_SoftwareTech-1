@@ -82,19 +82,6 @@ class Login:
 
             else:
 
-               # #self.appscreen()
-               # newWindow = Toplevel(self.root)
-
-               # # sets the title of the
-               # # Toplevel widget
-               # newWindow.title("New Window")
-  
-               # # sets the geometry of toplevel
-               # newWindow.geometry("200x200")
-  
-               # # A Label widget to show in toplevel
-               # Label(newWindow, text ="This is a new window").pack()
-
                self.root.destroy() # close the current window
                self.root = tk.Tk() # create another Tk instance
                self.app = UserProfile(self.root) # create Demo2 window
